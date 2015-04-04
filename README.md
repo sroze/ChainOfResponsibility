@@ -8,6 +8,14 @@
 This light library helps to implement quickly a chain of responsibility. This pattern is especially useful when
 you need a clear process that involve multiple steps.
 
+## Installation
+
+The suggested installation method is via composer:
+
+```
+composer require sroze/chain-of-responsibility
+```
+
 ## Usage
 
 There's two components:

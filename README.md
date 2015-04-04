@@ -1,5 +1,10 @@
 # Chain Of Responsibility
 
+[![Build Status](https://travis-ci.org/sroze/ChainOfResponsibility.svg?branch=master)](https://travis-ci.org/sroze/ChainOfResponsibility)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/7ca0f072-4b1b-47da-b68c-509085366caf/mini.png)](https://insight.sensiolabs.com/projects/7ca0f072-4b1b-47da-b68c-509085366caf)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/sroze/ChainOfResponsibility/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/sroze/ChainOfResponsibility/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/sroze/ChainOfResponsibility/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/sroze/ChainOfResponsibility/?branch=master)
+
 This light library helps to implement quickly a chain of responsibility. This pattern is especially useful when
 you need a clear process that involve multiple steps.
 

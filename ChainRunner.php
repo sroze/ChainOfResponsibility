@@ -1,19 +1,14 @@
 <?php
 namespace SRIO\ChainOfResponsibility;
 
-class ChainRunner 
+class ChainRunner extends ProcessCollection
 {
-    /**
-     * @var ChainProcessInterface[]
-     */
-    private $processes;
-
     /**
      * @param ChainProcessInterface[] $processes
      */
     public function __construct(array $processes)
     {
-        $this->processes = $processes;
+        $this->add($processes);
     }
 
     /**
@@ -43,16 +38,17 @@ class ChainRunner
      */
     public function getDecoratedProcesses()
     {
-        if (count($this->processes) === 0) {
+        $processes = $this->getProcesses();
+        $numberOfProcesses = count($processes);
+        if ($numberOfProcesses === 0) {
             throw new \RuntimeException('You must have at least one process to run');
         }
 
         $decoratedProcesses = [];
-        $numberOfProcesses = count($this->processes);
         $next = null;
 
         for ($i = $numberOfProcesses - 1; $i >= 0; $i--) {
-            $decoratedProcesses[$i] = $next = new ChainProcessDecorator($this->processes[$i], $next);
+            $decoratedProcesses[$i] = $next = new ChainProcessDecorator($processes[$i], $next);
         }
 
         return $decoratedProcesses;

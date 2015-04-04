@@ -9,7 +9,7 @@ class LambdaProcess implements ChainProcessInterface
     private $variable;
     private $callable;
 
-    public function __construct($variable, callable $callable = null)
+    public function __construct($variable = null, callable $callable = null)
     {
         $this->variable = $variable;
         $this->callable = $callable;
@@ -23,7 +23,8 @@ class LambdaProcess implements ChainProcessInterface
         if (null !== ($callable = $this->callable)) {
             $callable($context);
         }
-
-        $context[$this->variable] = true;
+        if (null !== $this->variable) {
+            $context[$this->variable] = true;
+        }
     }
 }

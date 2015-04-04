@@ -24,5 +24,8 @@
         "psr-4": {
           "SRIO\\ChainOfResponsibility\\": ""
         }
+    },
+    "require": {
+        "plasmaconduit/dependency-graph": "0.1.*"
     }
 }

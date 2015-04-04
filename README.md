@@ -59,4 +59,57 @@ $runner->run(new ChainContext([
 
 ## Builder
 
-TODO
+The builder is able to construct your chain of responsibility based on dependencies between processes. To declare 
+dependencies, your process have to implement the `DependentChainProcessInterface` interface.
+
+```php
+use SRIO\ChainOfResponsibility\ChainContext;
+use SRIO\ChainOfResponsibility\DependentChainProcessInterface;
+
+class FooProcess implements DependentChainProcessInterface
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function execute(ChainContext $context)
+    {
+        // Do whatever you want...
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getName()
+    {
+        return 'foo';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function dependsOn()
+    {
+        return ['bar'];
+    }
+}
+```
+
+Then, create another `BarProcess` which `getName` method will return `bar` and its `dependsOn` will return an empty
+array.
+
+Create a `ChainBuilder` by creating an instance of it and pass an array of processes that implement at least the
+`ChainProcessInterface`. As the `ChainRunner`, you also can call the `add` method to add one or more processes.
+```php
+$builder = new ChainBuilder([
+    new FooProcess(),
+    new BarProcess(),
+]);
+```
+
+You now can retrieve the chain runner by calling the `getRunner` method.
+```
+$runner = $builder->getRunner();
+$runner->run();
+```
+
+We the given previous example, the `bar` process will be executed before the `foo` one.

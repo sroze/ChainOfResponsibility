@@ -107,7 +107,7 @@ $builder = new ChainBuilder([
 ```
 
 You now can retrieve the chain runner by calling the `getRunner` method.
-```
+```php
 $runner = $builder->getRunner();
 $runner->run();
 ```

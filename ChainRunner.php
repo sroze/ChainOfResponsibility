@@ -4,10 +4,17 @@ namespace SRIO\ChainOfResponsibility;
 class ChainRunner extends ProcessCollection
 {
     /**
-     * @param ChainProcessInterface[] $processes
+     * @var DecoratorFactoryInterface
      */
-    public function __construct(array $processes)
+    private $decoratorFactory;
+
+    /**
+     * @param ChainProcessInterface[] $processes
+     * @param DecoratorFactoryInterface|null $decoratorFactory
+     */
+    public function __construct(array $processes, DecoratorFactoryInterface $decoratorFactory = null)
     {
+        $this->decoratorFactory = $decoratorFactory !== null ? $decoratorFactory : new DecoratorFactory();
         $this->add($processes);
     }
 
@@ -48,7 +55,7 @@ class ChainRunner extends ProcessCollection
         $next = null;
 
         for ($i = $numberOfProcesses - 1; $i >= 0; $i--) {
-            $decoratedProcesses[$i] = $next = new ChainProcessDecorator($processes[$i], $next);
+            $decoratedProcesses[$i] = $next = $this->decoratorFactory->decorate($processes[$i], $next);
         }
 
         return $decoratedProcesses;

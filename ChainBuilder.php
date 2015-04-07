@@ -42,7 +42,7 @@ final class ChainBuilder extends ProcessCollection
      * @throws CircularDependencyException
      * @throws UnresolvedDependencyException
      */
-    private function getOrderedProcesses()
+    public function getOrderedProcesses()
     {
         $graph = new DependencyGraph();
         $root = new DependencyGraphNode(self::ROOT_NODE_NAME);

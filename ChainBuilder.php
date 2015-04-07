@@ -95,6 +95,6 @@ final class ChainBuilder extends ProcessCollection
      */
     private function getProcessName(ChainProcessInterface $process)
     {
-        return $process instanceof DependentChainProcessInterface ? $process->getName() : spl_object_hash($process);
+        return $process instanceof NamedChainProcessInterface ? $process->getName() : spl_object_hash($process);
     }
 }

@@ -1,8 +1,14 @@
 <?php
 namespace SRIO\ChainOfResponsibility;
 
-interface DependentChainProcessInterface extends ChainProcessInterface
+interface DependentChainProcessInterface extends NamedChainProcessInterface
 {
-    public function getName();
+    /**
+     * Return an array of name of processes on which the current process depends.
+     *
+     * This will ensure that these processes will be run before the current one.
+     *
+     * @return array
+     */
     public function dependsOn();
 }

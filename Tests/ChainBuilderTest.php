@@ -77,4 +77,21 @@ class ChainBuilderTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(['p6', 'p1', 'p3', 'p4', 'p2', 'p5'], $order);
     }
+
+    public function testOptionalDependencies()
+    {
+        $order = [];
+        $orderTracer = function($context, $name) use (&$order) {
+            $order[] = $name;
+        };
+
+        (new ChainBuilder([
+            new DependentProcess('p2', ['p1'], $orderTracer),
+            new DependentProcess('p1', [
+                ['p3', false]
+            ], $orderTracer)
+        ]))->getRunner()->run();
+
+        $this->assertEquals(['p1', 'p2'], $order);
+    }
 }

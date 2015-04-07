@@ -134,3 +134,25 @@ by providing an object that implements `DecoratorFactoryInterface`.
 $decoratorFactory = new DecoratorFactory();
 $runner = new ChainRunner([], $decoratorFactory);
 ```
+
+### Optional dependencies
+
+If you need to define optional dependencies (which in fact means "if the given processes are in the chain, this process
+have to run after them") you can replace the dependency name with an array whose second value is `false`:
+
+```php
+class FooProcess implements DependentChainProcessInterface
+{
+    // [...]
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function dependsOn()
+    {
+        return [
+            ['bar', false]
+        ];
+    }
+}
+```

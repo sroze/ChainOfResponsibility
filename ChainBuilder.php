@@ -59,26 +59,23 @@ final class ChainBuilder extends ProcessCollection
 
         foreach ($nodes as $processName => $nodeDescription) {
             list($process, $node) = $nodeDescription;
-            if (!$process instanceof DependentChainProcessInterface) {
-                $graph->addDependency($root, $node);
-                continue;
+
+            $dependencies = [];
+            if ($process instanceof DependentChainProcessInterface) {
+                $dependencies = $this->getDependencyNames($nodes, $process);
             }
 
-            foreach ($process->dependsOn() as $dependencyName) {
-                if (!array_key_exists($dependencyName, $nodes)) {
-                    throw new UnresolvedDependencyException(sprintf(
-                        'Process "%s" is dependent of "%s" which is not found',
-                        $processName,
-                        $dependencyName
-                    ));
-                }
-
+            foreach ($dependencies as $dependencyName) {
                 if ($graph->addDependency($node, $nodes[$dependencyName][1]) instanceof Left) {
                     throw new CircularDependencyException(sprintf(
                         'Circular dependency found: %s already depends on %s',
                         $dependencyName, $processName
                     ));
                 }
+            }
+
+            if (empty($dependencies)) {
+                $graph->addDependency($root, $node);
             }
         }
 
@@ -87,6 +84,39 @@ final class ChainBuilder extends ProcessCollection
         }, array_filter($graph->flatten(), function($nodeName) {
             return $nodeName !== self::ROOT_NODE_NAME;
         }));
+    }
+
+    /**
+     * @param array $nodes
+     * @param DependentChainProcessInterface $process
+     * @return array
+     * @throws UnresolvedDependencyException
+     */
+    private function getDependencyNames(array $nodes, DependentChainProcessInterface $process)
+    {
+        $dependencies = [];
+        foreach ($process->dependsOn() as $dependency) {
+            if (!is_array($dependency)) {
+                $dependency = [$dependency, true];
+            }
+
+            list($dependencyName, $required) = $dependency;
+            if (!array_key_exists($dependencyName, $nodes)) {
+                if (!$required) {
+                    continue;
+                }
+
+                throw new UnresolvedDependencyException(sprintf(
+                    'Process "%s" is dependent of "%s" which is not found',
+                    $process->getName(),
+                    $dependencyName
+                ));
+            }
+
+            $dependencies[] = $dependencyName;
+        }
+
+        return $dependencies;
     }
 
     /**

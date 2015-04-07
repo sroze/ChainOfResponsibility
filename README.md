@@ -121,3 +121,16 @@ $runner->run();
 ```
 
 We the given previous example, the `bar` process will be executed before the `foo` one.
+
+## Advanced
+
+### Use a custom process decorator
+
+To create the chain, the `ChainBuilder` decorate your processes with the `ChainProcessDecorator` class. If you want to
+use your own decorator to add additional logic such as error recovering or logging, you can easily override the decorator
+by providing an object that implements `DecoratorFactoryInterface`.
+
+```php
+$decoratorFactory = new DecoratorFactory();
+$runner = new ChainRunner([], $decoratorFactory);
+```

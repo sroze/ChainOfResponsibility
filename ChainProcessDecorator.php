@@ -1,4 +1,5 @@
 <?php
+
 namespace SRIO\ChainOfResponsibility;
 
 final class ChainProcessDecorator implements ChainProcessInterface

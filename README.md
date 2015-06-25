@@ -60,7 +60,7 @@ $runner = new ChainRunner([
 
 Then, use the `run` method to run each process, with an **optional** `ChainContext` argument.
 ```php
-$runner->run(new ChainContext([
+$runner->run(new ArrayChainContext([
     'foo' => 'bar'
 ]));
 ```

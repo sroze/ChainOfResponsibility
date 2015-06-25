@@ -1,4 +1,5 @@
 <?php
+
 namespace SRIO\ChainOfResponsibility;
 
 use PlasmaConduit\DependencyGraph;
@@ -28,6 +29,7 @@ final class ChainBuilder extends ProcessCollection
      * Get runner for given processes.
      *
      * @return ChainRunner
+     *
      * @throws UnresolvedDependencyException
      */
     public function getRunner()
@@ -39,6 +41,7 @@ final class ChainBuilder extends ProcessCollection
      * Get processes ordered based on their dependencies.
      *
      * @return array
+     *
      * @throws CircularDependencyException
      * @throws UnresolvedDependencyException
      */
@@ -82,15 +85,16 @@ final class ChainBuilder extends ProcessCollection
             }
         }
 
-        return array_map(function($nodeName) use ($nodes) {
+        return array_map(function ($nodeName) use ($nodes) {
             return $nodes[$nodeName][0];
-        }, array_filter($graph->flatten(), function($nodeName) {
+        }, array_filter($graph->flatten(), function ($nodeName) {
             return $nodeName !== self::ROOT_NODE_NAME;
         }));
     }
 
     /**
      * @param ChainProcessInterface $process
+     *
      * @return string
      */
     private function getProcessName(ChainProcessInterface $process)

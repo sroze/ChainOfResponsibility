@@ -1,4 +1,5 @@
 <?php
+
 namespace SRIO\ChainOfResponsibility;
 
 class DecoratorFactory implements DecoratorFactoryInterface

@@ -1,7 +1,8 @@
 <?php
+
 namespace SRIO\ChainOfResponsibility;
 
-class ProcessCollection 
+class ProcessCollection
 {
     /**
      * @var ChainProcessInterface[]
@@ -19,7 +20,7 @@ class ProcessCollection
             foreach ($process as $p) {
                 $this->add($p);
             }
-        } else if (!$process instanceof ChainProcessInterface) {
+        } elseif (!$process instanceof ChainProcessInterface) {
             throw new \RuntimeException(sprintf(
                 'Expect to be instance of ChainProcessInterface or array but got %s',
                 get_class($process)

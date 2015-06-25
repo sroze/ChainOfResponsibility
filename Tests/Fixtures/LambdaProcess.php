@@ -1,4 +1,5 @@
 <?php
+
 namespace SRIO\ChainOfResponsibility\Tests\Fixtures;
 
 use SRIO\ChainOfResponsibility\ChainContext;

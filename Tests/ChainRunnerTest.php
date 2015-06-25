@@ -1,8 +1,9 @@
 <?php
+
 namespace SRIO\ChainOfResponsibility\Tests;
 
 use Prophecy\Argument;
-use SRIO\ChainOfResponsibility\ChainContext;
+use SRIO\ChainOfResponsibility\ArrayChainContext;
 use SRIO\ChainOfResponsibility\ChainRunner;
 use SRIO\ChainOfResponsibility\Tests\Fixtures\LambdaProcess;
 
@@ -30,7 +31,7 @@ class ChainRunnerTest extends \PHPUnit_Framework_TestCase
         $context = (new ChainRunner([
             new LambdaProcess('A'),
             new LambdaProcess('B'),
-            new LambdaProcess('C')
+            new LambdaProcess('C'),
         ]))->run();
 
         $this->assertArrayHasKey('A', $context);
@@ -42,12 +43,12 @@ class ChainRunnerTest extends \PHPUnit_Framework_TestCase
     {
         $context = (new ChainRunner([
             new LambdaProcess('A'),
-            new LambdaProcess('B', function($context) {
+            new LambdaProcess('B', function ($context) {
                 $this->assertInContext(['A'], $context);
             }),
-            new LambdaProcess('C', function($context) {
+            new LambdaProcess('C', function ($context) {
                 $this->assertInContext(['A', 'B'], $context);
-            })
+            }),
         ]))->run();
 
         $this->assertArrayHasKey('A', $context);
@@ -58,16 +59,16 @@ class ChainRunnerTest extends \PHPUnit_Framework_TestCase
     public function testDefaultContextArrivesToProcess()
     {
         (new ChainRunner([
-            new LambdaProcess('C', function($context) {
+            new LambdaProcess('C', function ($context) {
                 $this->assertInContext(['A', 'B'], $context);
-            })
-        ]))->run(new ChainContext([
+            }),
+        ]))->run(new ArrayChainContext([
             'A' => true,
-            'B' => false
+            'B' => false,
         ]));
     }
 
-    private function assertInContext(array $keys, ChainContext $context)
+    private function assertInContext(array $keys, ArrayChainContext $context)
     {
         foreach ($keys as $key) {
             $this->assertArrayHasKey($key, $context);

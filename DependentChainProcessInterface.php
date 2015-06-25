@@ -1,4 +1,5 @@
 <?php
+
 namespace SRIO\ChainOfResponsibility;
 
 interface DependentChainProcessInterface extends NamedChainProcessInterface

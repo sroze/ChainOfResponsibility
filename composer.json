@@ -27,6 +27,6 @@
         }
     },
     "require": {
-        "plasmaconduit/dependency-graph": "0.1.*"
+        "mareg/dependency-graph": "0.2.*"
     }
 }
